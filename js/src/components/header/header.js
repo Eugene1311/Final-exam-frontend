@@ -9,7 +9,7 @@ export default class Header extends React.Component {
     super(props);
 
     this.state = {
-    	data: this.props.data
+    	data: this.props.data || {}
     };
 
     this.requestLanguage = this.requestLanguage.bind(this);

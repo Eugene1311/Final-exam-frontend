@@ -9,7 +9,7 @@ export default class Main extends React.Component {
     this.state = {
       isHidden: true,
       isDropped: false,
-      data: this.props.data,
+      data: this.props.data || {},
       firstName: '',
       lastName: '',
       password: ''
@@ -97,13 +97,13 @@ export default class Main extends React.Component {
           </label>
           <label>{this.state.data.roleLabel}:
             <select ref="select" className="sign_form_input" onClick={this.toggleSelect.bind(this)} required>
-              <option value="developer">
+              <option value="1">
                 {this.state.data.developerRole}
               </option>
-              <option value="manager">
+              <option value="2">
                 {this.state.data.managerRole}
               </option>
-              <option value="customer">
+              <option value="3">
                 {this.state.data.customerRole}
               </option>
             </select>
