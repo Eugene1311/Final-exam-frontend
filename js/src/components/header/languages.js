@@ -8,6 +8,11 @@ class Languages extends React.Component {
       language: this.props.language === 'ru' ? 'ru' : 'en'
     };
   }
+  setLanguage(language) {
+    this.setState({
+      language: language
+    });
+  }
   render() {
     return (
       <div className="languages" onClick={this.props.requestLanguage}>

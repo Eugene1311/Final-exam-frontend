@@ -9,11 +9,18 @@ export default class Header extends React.Component {
     super(props);
 
     this.state = {
-    	data: this.props.data || {}
+    	data: {}
     };
 
     this.requestLanguage = this.requestLanguage.bind(this);
 	}
+  getData(data) {
+    this.setState({
+      data: data
+    });
+
+    this.refs.language.setLanguage(data.language);
+  }
 	requestLanguage(event) {
     event.preventDefault();
     var language = event.target.dataset.lang,
@@ -40,7 +47,7 @@ export default class Header extends React.Component {
     return (
     	<div>
   			<Logo title={this.state.data.title}/>
-  			<Languages requestLanguage={this.requestLanguage} language={this.state.data.language}/>
+  			<Languages requestLanguage={this.requestLanguage} ref="language" language={this.state.data.language}/>
   			<SignButtons signIn={this.state.data.signInButton} signUp={this.state.data.signUpButton}/>
   		</div>
     );
