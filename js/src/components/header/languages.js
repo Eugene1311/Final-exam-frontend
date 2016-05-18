@@ -15,15 +15,19 @@ class Languages extends React.Component {
   }
   render() {
     return (
-      <div className="languages" onClick={this.props.requestLanguage}>
+      <div className="languages">
         <a href="#"
           data-lang="ru"
-          className={this.state.language === 'ru' ? 'languages-selected header_button' : 'header_button'}>
+          className={this.state.language === 'ru' ? 'languages-selected header_button' : 'header_button'}
+          onClick={this.props.requestLanguage}
+        >
           Рус
         </a>
         <a href="#"
           data-lang="en"
-          className={this.state.language === 'en' ? 'languages-selected header_button' : 'header_button'}>
+          className={this.state.language === 'en' ? 'languages-selected header_button' : 'header_button'}
+          onClick={this.props.requestLanguage}
+        >
           Eng
         </a>
       </div>

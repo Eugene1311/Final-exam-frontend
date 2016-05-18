@@ -3,6 +3,7 @@ import Languages from './languages';
 import Logo from './logo';
 import SignButtons from './signButtons';
 import request from '../../helpers/request';
+import config from '../../config/config';
 
 export default class Header extends React.Component {
 	constructor(props) {
@@ -27,7 +28,7 @@ export default class Header extends React.Component {
         target = event.target,
 		that = this;
 
-    request('GET', 'http://localhost:8080/localize?language=' + language, null, function(response) {
+    request('GET', config.host + '/localize?language=' + language, null, function(response) {
       // console.log(JSON.parse(response));
       var data = JSON.parse(response);
       var event = new CustomEvent('changeLanguage', {
@@ -35,6 +36,8 @@ export default class Header extends React.Component {
       });
 
       window.dispatchEvent(event);
+
+      localStorage.language = language;
 
       that.setState({data: data});
       Array.prototype.forEach.call(target.parentNode.childNodes, function(item) {
@@ -48,7 +51,10 @@ export default class Header extends React.Component {
     	<div>
   			<Logo title={this.state.data.title}/>
   			<Languages requestLanguage={this.requestLanguage} ref="language" language={this.state.data.language}/>
-  			<SignButtons signIn={this.state.data.signInButton} signUp={this.state.data.signUpButton}/>
+  			<SignButtons 
+          signIn={this.state.data.signInButton}
+          signUp={this.state.data.signUpButton}
+          signOut={this.state.data.signOutButton}/>
   		</div>
     );
   }

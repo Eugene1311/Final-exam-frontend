@@ -4,11 +4,12 @@ const webpack = require('webpack');
 module.exports = {
 
   entry: {
-    main: './js/src/app.js'
+    main: ['./js/src/app.js']
   },
 
   output: {
-    path: __dirname + "/js",
+    path: __dirname + '/js',
+    publicPath: '/',
     filename: "build.js"
   },
 
@@ -57,14 +58,21 @@ module.exports = {
     new webpack.DefinePlugin({
       NODE_ENV:JSON.stringify(NODE_ENV)
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.optimize.DedupePlugin()
+    // ,
+    // new webpack.HotModuleReplacementPlugin()
   ],
 
   devServer: {
     host: 'localhost',
     port: 8000,
-    historyApiFallback: true,
-    hot: true
+    // historyApiFallback: true
   }
 };
+
+// devServer: {
+//     host: 'localhost',
+//     port: 8000,
+//     historyApiFallback: true,
+//     hot: true
+//   }

@@ -1,14 +1,26 @@
 import React from 'react';
 import Header from './header/header';
 import request from '../helpers/request';
+import config from '../config/config';
+import Profile from './common/profile';
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
+    // console.log(React.Children.only(Profile));
     var that = this;
-    request('GET', 'http://localhost:8080/init', null, response => {
+    var login = localStorage.getItem('login');
+
+    var promise = new Promise((resolve, reject) => {
+      request('GET', config.host + '/init', null, response => {
+        resolve(response);
+      });
+    });
+    
+    promise
+    .then(response => {
       var data = JSON.parse(response);
       that.refs.header.getData(data);
       //todo это же событие создаётся в header - разобраться
@@ -17,6 +29,24 @@ export default class Layout extends React.Component {
       });
 
       window.dispatchEvent(event);
+    })
+    .then(() => {
+      
+      if(login) {
+        request('GET', config.host + '/user-data', {}, (resp) => {
+          console.log(JSON.parse(resp));
+          var resp = JSON.parse(resp);
+          if(resp.success) {
+            var route = resp.role;
+            var event = new CustomEvent('userLogin', {
+              detail: resp
+            });
+
+            that.context.router.push("/" + route + "/profile");
+            window.dispatchEvent(event);
+          }
+        });
+      }      
     });
   }
   render() {
@@ -36,14 +66,6 @@ export default class Layout extends React.Component {
   }
 };
 
-// request('GET', 'http://localhost:8080/init', null, response => {
-//   ReactDOM.render((
-//     <Router history={browserHistory}>
-//       <Route path="/" component={Layout}>
-//         <IndexRoute component={Main} ></IndexRoute>
-        
-//       </Route>
-//     </Router>
-//   ), document.getElementById('app'));
-//   console.log(response);
-// });
+Layout.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};

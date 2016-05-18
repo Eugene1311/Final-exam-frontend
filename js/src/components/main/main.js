@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import request from '../../helpers/request';
+import config from '../../config/config';
 
-export default class Main extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,10 +17,17 @@ export default class Main extends React.Component {
       lastName: '',
       password: ''
     };
+
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
+    this.onShowForm = this.onShowForm.bind(this);
   }
   componentDidMount() {
-    window.addEventListener('showForm', this.onShowForm.bind(this), false);
-    window.addEventListener('changeLanguage', this.onChangeLanguage.bind(this), false);  
+    window.addEventListener('showForm', this.onShowForm, false);
+    window.addEventListener('changeLanguage', this.onChangeLanguage, false);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('showForm', this.onShowForm, false);
+    window.removeEventListener('changeLanguage', this.onChangeLanguage, false);
   }
   onShowForm() {
     this.setState({
@@ -28,7 +36,7 @@ export default class Main extends React.Component {
     // openSelect('.sign_form_input');
   }
   onChangeLanguage(e) {
-    console.log(this.state.isDropped);
+    // console.log(this.state.isDropped, 'onChangeLanguage');
     this.setState({
       data: e.detail,
       isDropped: false
@@ -60,8 +68,8 @@ export default class Main extends React.Component {
       role: this.refs.select.value
     };
     var that = this;
-    console.log(dataToSend);
-    request('POST', 'http://localhost:8080/login', dataToSend, response => {
+
+    request('POST', config.host + '/login', dataToSend, response => {
       console.log(JSON.parse(response));
       var response = JSON.parse(response);
       var route = response.role;
@@ -70,10 +78,16 @@ export default class Main extends React.Component {
         that.setState({
           isError: true
         });
+        return;
       }
 
       if(route !== "no such role") {
-        that.props.history.pushState(null, "/" + route);
+        that.context.router.push("/" + route + "/profile");
+
+        var event = new Event('userLogin');
+        window.dispatchEvent(event);
+
+        localStorage.login = response.login;
       }
     });
   }
@@ -149,3 +163,9 @@ export default class Main extends React.Component {
     );
   }
 };
+
+Main.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
+export default Main;
