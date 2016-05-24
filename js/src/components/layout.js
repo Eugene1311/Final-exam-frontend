@@ -33,14 +33,19 @@ export default class Layout extends React.Component {
     .then(() => {
       
       if(login) {
-        request('GET', config.host + '/user-data', {}, (resp) => {
-          console.log(JSON.parse(resp));
-          var resp = JSON.parse(resp);
-          if(resp.success) {
-            var route = resp.role;
-            var event = new CustomEvent('userLogin', {
-              detail: resp
-            });
+        request('GET', config.host + '/user-data', {}, (response) => {
+          // console.log(JSON.parse(response), 'layout');
+          var response = JSON.parse(response);
+          if(response.success) {
+            var route = response.role;
+            var event = new Event('userLogin');
+            var userData = JSON.stringify({
+                login: response.login,
+                first_name: response.first_name,
+                last_name: response.last_name
+              });
+
+            localStorage.userData = userData;
 
             that.context.router.push("/" + route + "/profile");
             window.dispatchEvent(event);

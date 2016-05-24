@@ -1,22 +1,25 @@
 import React from 'react';
 import Sidebar from '../common/sidebar';
 import Profile from '../common/profile';
+import request from '../../helpers/request';
+import config from '../../config/config';
 
-export default class Customer extends React.Component {
+export default class Manager extends React.Component {
   constructor(props) {
     super(props);
 
-    var language = localStorage.getItem('language');
-    var menu = language === 'ru' ?
+    var menu = localStorage.getItem('language') === 'ru' ?
       {
         profile: 'Профиль',
         customers: 'Заказчики',
-        tasksList: 'Список ТЗ'
+        developers: 'Разработчики',
+        tasks: 'Список ТЗ'
       } :
       {
         profile: 'Profile',
         customers: 'Сustomers',
-        tasksList: 'Tasks list'
+        developers: 'Developers',
+        tasks: 'Tasks list'
       };
     this.state = {
       menu: menu
@@ -35,7 +38,8 @@ export default class Customer extends React.Component {
       menu: {
         profile: e.detail.profile,
         customers: e.detail.customers,
-        tasksList: e.detail.tasksList
+        developers: e.detail.developers,
+        tasks: e.detail.tasksList
       }
     });
     var event = new CustomEvent('changeMenu', {
@@ -47,9 +51,18 @@ export default class Customer extends React.Component {
   render() {
     return (
       <div className="container">
-        <Sidebar data={this.state.menu} root="manager"/>
-        <Profile />
+        <Sidebar
+          data={this.state.menu} 
+          root="manager"/>
+        {this.props.children}
       </div>
     )
   }
+  getChildContext() {
+    return {showOpenButton: true};
+  }
 };
+
+Manager.childContextTypes = {
+  showOpenButton: React.PropTypes.bool
+}

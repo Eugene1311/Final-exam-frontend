@@ -21,11 +21,20 @@ class SignButtons extends React.Component {
 	showForm(event) {
 		event.preventDefault();
 		var target = event.target;
+		var isSignIn;
 		
 		if(target.classList.contains('sign_button-sighin')) {
-			let newEvent = new Event('showForm');
-			window.dispatchEvent(newEvent);
+			isSignIn = true;
+		} else {
+			isSignIn = false;
 		}
+		
+		let newEvent = new CustomEvent('showForm', {
+			detail: {
+				isSignIn: isSignIn
+			} 
+		});
+		window.dispatchEvent(newEvent);
 	}
 	signOut(event) {
 		event.preventDefault();
@@ -36,6 +45,7 @@ class SignButtons extends React.Component {
 				isLogin: false
 			});
 			localStorage.removeItem('login');
+			localStorage.removeItem('userData');
 		});
 	}
   render() {

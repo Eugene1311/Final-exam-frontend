@@ -1,6 +1,8 @@
 import React from 'react';
 import Sidebar from '../common/sidebar';
 import Profile from '../common/profile';
+import request from '../../helpers/request';
+import config from '../../config/config';
 
 export default class Customer extends React.Component {
   constructor(props) {
@@ -11,12 +13,12 @@ export default class Customer extends React.Component {
       {
         profile: 'Профиль',
         newTask: 'Составить ТЗ',
-        tasksList: 'Список ТЗ'
+        tasks: 'Список ТЗ'
       } :
       {
         profile: 'Profile',
         newTask: 'Create new task',
-        tasksList: 'Tasks list'
+        tasks: 'Tasks list'
       };
     this.state = {
       menu: menu
@@ -35,7 +37,7 @@ export default class Customer extends React.Component {
       menu: {
         profile: e.detail.profile,
         newTask: e.detail.newTask,
-        tasksList: e.detail.tasksList
+        tasks: e.detail.tasksList
       }
     });
     var event = new CustomEvent('changeMenu', {
@@ -52,4 +54,11 @@ export default class Customer extends React.Component {
       </div>
     )
   }
+  getChildContext() {
+    return {path: "/customer"};
+  }
 };
+
+Customer.childContextTypes = {
+  path: React.PropTypes.string
+}

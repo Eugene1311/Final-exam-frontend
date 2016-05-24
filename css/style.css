@@ -62,6 +62,7 @@ body {
 }
 .main {
     height: calc(100% - 140px);
+    overflow-y: auto;
     box-sizing: border-box;
 }
 .footer {
@@ -145,6 +146,9 @@ body {
   width: 200px;
   padding: 5px 0;
   margin-right: 10px;
+  position: relative;
+  z-index: 3;
+  box-sizing: border-box;
 }
 .sidebar_menu_link {
   display: block;
@@ -177,6 +181,18 @@ body {
 .profile_item {
     margin: 13px 0 29px;
 }
+.profile_item_input {
+    font-size: 0.9em;
+    padding: 3px 5px;
+    margin: -3px 0 -3px 10px;
+    border-radius: 2px;
+    border: 1px solid grey;
+    height: 20px;
+    box-sizing: border-box;
+}
+.profile_item_span {
+    margin-left: 10px;
+}
 .profile_btn {
     height: 30px;
     background: #026E00;
@@ -187,6 +203,143 @@ body {
     box-shadow: 1px 1px 3px #434443;
     cursor: pointer;
     outline: none;
-    padding: 0 10px;
+    padding: 0 10px 2px;
     box-sizing: border-box;
+    margin-bottom: 20px;
+}
+.profile_btn_pair {
+    margin-right: 10px;
+}
+.profile_btn-cancel {
+    background: #D52121;
+}
+/*new task form*/
+.task_form {
+    padding: 18px 0 0 220px;
+    position: relative;
+}
+.task_form_item {
+    display: block;
+    margin: 10px 0;
+    border-radius: 4px;
+    padding: 2px 5px;
+    box-shadow: 1px 1px 2px #9C9E9C;
+    font-size: 1em;
+}
+.task_form_input {
+    min-width: 250px;
+    border: 1px solid #A9A9A9;
+}
+.task_form_textarea {
+    width: 90%;
+    resize: vertical;
+    min-height: 200px;
+    overflow: auto;
+    font-size: 1.2em;
+}
+.task_form_notification {
+    position: absolute;
+    top: 44px;
+    right: 7%;
+    background: #37A237;
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    opacity: 1;
+    transition: all .5s;
+}
+.task_form_notification-hidden {
+    opacity: 0;
+}
+/* tasks list */
+.tasks {
+    padding: 15px 0 5px 230px;
+}
+.task {
+    margin-bottom: 10px;
+}
+.task_title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.task_description {
+    margin-bottom: 15px;
+}
+.task_created {
+    margin-bottom: 7px;
+    font-size: 0.9em;
+    font-style: italic;
+}
+.task_checked {
+    font-size: 0.9em;
+    padding: 5px;
+    color: #fff;
+    border-radius: 5px;
+    /*margin: 5px 0 15px;*/
+    float: right;
+}
+.task_checked-no {
+   background: #EF3A1B; 
+}
+.task_checked-yes {
+   background: #37A237; 
+}
+.line {
+    margin-top: 15px;
+    width: 100%;
+}
+.task_open_btn {
+    display: block;
+    margin: 0 0 10px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #026e00;
+    color: #fff;
+    font-size: 0.9em;
+    font-family: Arial;
+    text-decoration: none;
+    width: 70px;
+    text-align: center;
+}
+.task_new_issue {
+    text-decoration: none;
+    color: #fff;
+    background: #49a45c;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
+/* users list */
+.users_wrapper {
+    padding: 13px 0 0 230px;
+}
+/* issue */
+.issue {
+    position: relative;
+}
+.issue_form {
+    padding: 0;
+}
+.issue_btn {
+    margin: 0 10px 0 0;
+}
+.issue_btn-delete {
+    background: #D52121;
+}
+.issue_select_group {
+    margin: 10px 0 90px;
+}
+.issue_select {
+    margin: 0px 15px 0 10px;
+    font-size: 0.9em;
+    border-radius: 2px;
+    border: 1px solid grey;
+}
+.issue_search {
+    vertical-align: top;
+    text-decoration: none;
+    padding: 5px;
+    background: #026e00;
 }

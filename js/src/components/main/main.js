@@ -11,11 +11,12 @@ class Main extends React.Component {
       isHidden: true,
       isDropped: false,
       isError: false,
-      data: this.props.data || {},
+      data: this.props.data,
       login: '',
       firstName: '',
       lastName: '',
-      password: ''
+      password: '',
+      isSignIn: true
     };
 
     this.onChangeLanguage = this.onChangeLanguage.bind(this);
@@ -29,9 +30,10 @@ class Main extends React.Component {
     window.removeEventListener('showForm', this.onShowForm, false);
     window.removeEventListener('changeLanguage', this.onChangeLanguage, false);
   }
-  onShowForm() {
+  onShowForm(e) {
     this.setState({
-      isHidden: false
+      isHidden: false,
+      isSignIn: e.detail.isSignIn
     });
     // openSelect('.sign_form_input');
   }
@@ -59,37 +61,59 @@ class Main extends React.Component {
   }
   submitForm(e) {
     e.preventDefault();
-
     var dataToSend = {
       login: this.state.login.trim(),
       firstName: this.state.firstName.trim(),
       lastName: this.state.lastName.trim(),
-      password: this.state.password.trim(),
-      role: this.refs.select.value
+      password: this.state.password.trim()
     };
     var that = this;
 
-    request('POST', config.host + '/login', dataToSend, response => {
-      console.log(JSON.parse(response));
-      var response = JSON.parse(response);
-      var route = response.role;
+    if(this.state.isSignIn) {
+      dataToSend.role = this.refs.select.value;
 
-      if(response.loginReserved) {
-        that.setState({
-          isError: true
+      request('POST', config.host + '/login', dataToSend, response => {
+        var response = JSON.parse(response);
+        var route = response.role;
+
+        if(response.loginReserved) {
+          that.setState({
+            isError: true
+          });
+          return;
+        }
+
+        if(route !== "no such role") {
+          this.successRequestHandler(response);
+        }
+      });
+    } else {
+      let params = 'login=' + encodeURIComponent(dataToSend.login) + '&firstName=' + encodeURIComponent(dataToSend.firstName) +'&lastName='+ encodeURIComponent(dataToSend.lastName) + '&password=' + encodeURIComponent(dataToSend.password);
+      request('GET', config.host + '/login?' + params, dataToSend, response => {
+        var response = JSON.parse(response);
+
+        if(response.success) {
+          this.successRequestHandler(response);
+        } else {
+          console.log('error');
+        }
+      });
+    }
+  }
+  successRequestHandler(response) {
+    let event = new Event('userLogin');
+    let userData = JSON.stringify({
+          login: this.state.login.trim(),
+          first_name: this.state.firstName.trim(),
+          last_name: this.state.lastName.trim()
         });
-        return;
-      }
+    var route = response.role;
 
-      if(route !== "no such role") {
-        that.context.router.push("/" + route + "/profile");
+    localStorage.userData = userData;
+    localStorage.login = response.login;
 
-        var event = new Event('userLogin');
-        window.dispatchEvent(event);
-
-        localStorage.login = response.login;
-      }
-    });
+    window.dispatchEvent(event);
+    this.context.router.push("/" + route + "/profile");
   }
   handleChange(e) {
     this.setState({
@@ -144,19 +168,21 @@ class Main extends React.Component {
                 onChange={this.handleChange.bind(this)}
                 required />
           </label>
-          <label>{this.state.data.roleLabel}:
-            <select ref="select" className="sign_form_input" onClick={this.toggleSelect.bind(this)} required>
-              <option value="1">
-                {this.state.data.developerRole}
-              </option>
-              <option value="2">
-                {this.state.data.managerRole}
-              </option>
-              <option value="3">
-                {this.state.data.customerRole}
-              </option>
-            </select>
-          </label>
+          {this.state.isSignIn ? 
+            <label>{this.state.data.roleLabel}:
+              <select ref="select" className="sign_form_input" onClick={this.toggleSelect.bind(this)} required>
+                <option value="1">
+                  {this.state.data.developerRole}
+                </option>
+                <option value="2">
+                  {this.state.data.managerRole}
+                </option>
+                <option value="3">
+                  {this.state.data.customerRole}
+                </option>
+              </select>
+            </label> : ''
+          }
           <input type="submit" value={this.state.data.submitButton} className={selectClass} />
         </form> : null }
       </div>
