@@ -103,8 +103,6 @@ export default class Profile extends React.Component {
     this.setState({
       [`${e.target.getAttribute("name")}`]: e.target.value
     });
-    // bug with spec and qualification
-    // console.log(this.state[`${e.target.getAttribute("name")}`] + "-" + [`${e.target.getAttribute("name")}`]);
   }
   handleQualificationChange(e) {
     this.setState({
@@ -159,7 +157,7 @@ export default class Profile extends React.Component {
             <div>
               <p className="profile_item">
                 <label>Специализация :</label>
-                <select name="specialization" value={this.state.specialization}
+                <select name="specialization" defaultValue={this.state.specialization}
                   className="issue_select"
                   onChange={this.handleSpecializationChange.bind(this)}>
                   <option value="frontend developer">Frontend-разработчик</option>
@@ -170,7 +168,7 @@ export default class Profile extends React.Component {
               </p>
               <p className="profile_item">
                 <label>Квалификация :</label>
-                <select name="qualification" value={this.state.qualification} 
+                <select name="qualification" defaultValue={this.state.qualification} 
                   className="issue_select"
                   onChange={this.handleQualificationChange.bind(this)}>
                   <option value="junior">Junior</option>

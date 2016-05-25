@@ -89,7 +89,7 @@ class Main extends React.Component {
       });
     } else {
       let params = 'login=' + encodeURIComponent(dataToSend.login) + '&firstName=' + encodeURIComponent(dataToSend.firstName) +'&lastName='+ encodeURIComponent(dataToSend.lastName) + '&password=' + encodeURIComponent(dataToSend.password);
-      request('GET', config.host + '/login?' + params, dataToSend, response => {
+      request('GET', config.host + '/login?' + params, {}, response => {
         var response = JSON.parse(response);
 
         if(response.success) {

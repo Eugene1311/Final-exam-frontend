@@ -28,6 +28,7 @@ export default class TaskList extends React.Component {
     });
   }
   render() {
+    var userRole = this.context.path ? this.context.path.substring(1) : '';
     return (
       <div className="tasks">
         {this.state.isLoading ? <div>Loading...</div> : ''}
@@ -38,12 +39,13 @@ export default class TaskList extends React.Component {
                       title={task.title}
                       description={task.description}
                       dayOfMonth={task.created_at.dayOfMonth}
-                      monthValue={task.created_at.dayOfMonth}
+                      monthValue={task.created_at.monthValue}
                       year={task.created_at.year}
                       checked={task.checked}
                       id={task.id}
                       showOpenButton={this.state.showOpenButton} 
-                      isEdited={task.edited_at} />
+                      isEdited={task.edited_at} 
+                      userRole={userRole} />
           }
           )
         }

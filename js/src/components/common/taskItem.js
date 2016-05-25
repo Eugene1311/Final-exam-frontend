@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
 export default class TaskItem extends React.Component {
 	constructor(props) {
@@ -48,13 +49,19 @@ export default class TaskItem extends React.Component {
   }
 	render() {
     var { data } = this.state;
+    var checkedClass = classNames({
+      'task_checked': true,
+      'task_checked-yes': this.props.checked,
+      'task_checked-no': !this.props.checked,
+      'task_checked-customer': this.props.userRole === 'customer'
+    });
 		return (
       <div className="task">
         <h3 className="task_title">{this.props.title}</h3>
         <p className="task_created">{data.createdAt}: {this.props.dayOfMonth}. {this.props.monthValue}. {this.props.year}</p>
         {this.props.isEdited ? <p className="task_created">{data.editedAt}: </p> : ''}
         <p className="task_description">{this.props.description}</p>
-        <div className={this.props.checked ? 'task_checked task_checked-yes' : 'task_checked task_checked-no'}>
+        <div className={checkedClass}>
           {this.props.checked ? data.checked : data.unchecked}
         </div>
         {this.props.showOpenButton ? 

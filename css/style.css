@@ -279,6 +279,9 @@ body {
     /*margin: 5px 0 15px;*/
     float: right;
 }
+.task_checked-customer {
+    margin: 5px 0 15px;
+}
 .task_checked-no {
    background: #EF3A1B; 
 }
@@ -342,4 +345,21 @@ body {
     text-decoration: none;
     padding: 5px;
     background: #026e00;
+}
+.developers_table {
+    width: 100%;
+    margin: -10px 0 20px;
+}
+.developers_table_row {
+    border-bottom: 1px solid #000;
+}
+.developers_table_row-body:hover {
+    background: gainsboro;
+}
+.developers_table_cell {
+    padding: 5px;
+    cursor: pointer;
+}
+.developers_table_head {
+    background: #ABABAB;
 }

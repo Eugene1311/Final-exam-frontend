@@ -37,13 +37,13 @@ gulp.task('browserSync', function() {
         return next();
       }
     }
-  })
+  });
 });
  
 gulp.task('compress', function() {
   return gulp.src('js/build.js')
     .pipe(uglify())
-    .pipe(gulp.dest('js/build.min.js'));
+    .pipe(gulp.dest('js/builded'));
 });
 
 gulp.task('watch', ['browserSync', 'webpack'], function() {

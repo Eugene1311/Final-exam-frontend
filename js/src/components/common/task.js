@@ -55,7 +55,7 @@ export default class Task extends React.Component {
 					title={data.title}
 					description={data.description}
 					dayOfMonth={data.created_at.dayOfMonth}
-					monthValue={data.created_at.dayOfMonth}
+					monthValue={data.created_at.monthValue}
 					year={data.created_at.year}
 					checked={data.checked}
 					showCreateButton={true} />
